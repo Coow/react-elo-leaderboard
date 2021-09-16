@@ -6,10 +6,28 @@ import reportWebVitals from './reportWebVitals';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import { save, load } from "redux-localstorage-simple"
+
+import { applyMiddleware, createStore } from 'redux'
+import { Provider } from 'react-redux'
+
+import allReducers from './Reducers'
+
+const createStoreWithMiddleware
+  = applyMiddleware(
+    save() // Saving done here
+  )(createStore)
+
+const store = createStoreWithMiddleware(
+  allReducers,
+  load(),
+  //window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+);
+
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById('root')
 );
 
