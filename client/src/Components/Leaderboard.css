@@ -1,0 +1,23 @@
+table tr{
+    background-color: white;
+}
+
+table tr th{
+    background-color: black;
+}
+
+._1 {
+    background-color: gold;
+}
+
+._2 {
+    background-color: silver;
+}
+
+._3 {
+    background-color: #CD7F32;
+}
+
+tr td{
+    color: black;
+}
