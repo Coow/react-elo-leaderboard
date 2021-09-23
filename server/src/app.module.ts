@@ -8,8 +8,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './user/user.module';
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb://localhost/leaderboard'), UsersModule],
+  imports: [MongooseModule.forRoot('mongodb://localhost/leaderboard', {
+    useCreateIndex: true,
+    autoIndex: true,
+  }), UsersModule],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

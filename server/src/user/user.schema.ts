@@ -6,28 +6,31 @@ export type UserDocument = User & Document;
 @Schema()
 export class User {
   @Prop()
-  firstName: string;
+  firstName?: string;
 
   @Prop()
-  lastName: string;
+  lastName?: string;
 
-  @Prop()
+  @Prop({required: true, unique: true, index: true, type: String})
   nick: string;
 
-  @Prop()
+  @Prop({required: true, unique: true})
   localUUID: string;
 
-  @Prop()
+  @Prop({default: 1000})
   elo: number;
 
-  @Prop()
+  @Prop({default: 0})
   wins: number;
   
-  @Prop()
+  @Prop({default: 0})
   losses: number;
 
-  @Prop()
+  @Prop({default: 30})
   kFactor: number;
+
+  @Prop({default: true})
+  enabled: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)
