@@ -1,10 +1,13 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
+import axios from "axios";
 
 import { Button } from 'react-bootstrap';
 
 import { Leaderboard } from "../Components/Leaderboard"
 
 export const Home = () => {
+
+    const [leaderboardJSON, set_leaderboardJSON] = useState([])
 
     let columns = [
         {
@@ -60,11 +63,21 @@ export const Home = () => {
             losses: 3
         },
     ]
-    return <div className="mt-40 flex flex-col items-center justify-content-center">
+
+    useEffect(() => {
+        fetch(`http://localhost:3001/users`)
+        .then(result => result.json())
+        .then(response => {
+            console.log(response)
+            set_leaderboardJSON(response)
+        })
+    },[])
+
+    return <div className="mt-20 flex flex-col items-center justify-content-center">
 
         <Button href="game" size="lg" variant="success" className="mb-16">New Game</Button>
 
-        <Leaderboard columns={columns} rows={rows}
+        <Leaderboard columns={columns} rows={leaderboardJSON}
         />
     </div>
 }

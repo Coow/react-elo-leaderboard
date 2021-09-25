@@ -20,13 +20,13 @@ export const Leaderboard = ({ rows, columns }: LeaderboardType) => {
 
     columns.forEach(column => {
         headers.push(
-            <th className={`${column.field}`}>{column.label}</th>
+            <th className={`${column.field} h-8`}>{column.label}</th>
         )
     })
 
     rows.forEach((row, i) => {
         dataRows.push(
-            <tr className={`_${i + 1} tableRow`}>
+            <tr className={`_${i + 1} tableRow h-8`}>
                 <td>{i + 1}</td>
                 <td>{row.playerName}</td>
                 <td>{row.elo}</td>
@@ -38,7 +38,7 @@ export const Leaderboard = ({ rows, columns }: LeaderboardType) => {
     })
 
     return (
-        <table className="m-auto text-center w-full lg:w-3/6 place-self-center">
+        <table className="m-auto text-center w-full lg:w-3/6 place-self-center rounded-full">
             <thead>
                 <tr>{headers}</tr>
             </thead>

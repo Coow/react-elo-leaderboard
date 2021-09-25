@@ -1,23 +1,23 @@
-table tr{
-    background-color: white;
+table tr {
+	background-color: white;
 }
 
-table tr th{
-    background-color: black;
+table tr th {
+	background-color: black;
 }
 
 ._1 {
-    background-color: gold;
+	background-color: gold;
 }
 
 ._2 {
-    background-color: silver;
+	background-color: silver;
 }
 
 ._3 {
-    background-color: #CD7F32;
+	background-color: #cd7f32;
 }
 
-tr td{
-    color: black;
+tr td {
+	color: black;
 }

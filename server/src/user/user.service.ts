@@ -14,7 +14,7 @@ export class UserService {
   ) { }
 
   async getUsers() {
-    return await this.userModel.find();
+    return await this.userModel.find().sort({'elo':'descending'});
   }
   async getUser(_localUUID) {
     //const hash = await bcrypt.hash(_localUUID, 10)
