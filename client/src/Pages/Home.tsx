@@ -75,7 +75,7 @@ export const Home = () => {
 
     return <div className="mt-20 flex flex-col items-center justify-content-center">
 
-        <Button href="game" size="lg" variant="success" className="mb-16">New Game</Button>
+        <Button href="game" size="lg" variant="success" className="mb-16 w-1/6">New Game</Button>
 
         <Leaderboard columns={columns} rows={leaderboardJSON}
         />

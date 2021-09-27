@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { request } from 'http';
 import { UserService } from './user.service';
 
 @Controller('users')
@@ -9,8 +10,9 @@ export class UserController {
   async getUsers() {
     return this.userService.getUsers();
   }
-  @Get('user')
+  @Post('user')
   async getUser(@Body('localUUID') localUUID: string) {
+    console.log(localUUID)
     return this.userService.getUser(localUUID);
   }
 

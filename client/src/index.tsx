@@ -28,7 +28,8 @@ const createStoreWithMiddleware
 
 const store = createStoreWithMiddleware(
 	allReducers,
-	composeEnhancers(),
+	load()
+	//composeEnhancers(),
 	//window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 );
 

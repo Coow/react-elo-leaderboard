@@ -1,0 +1,18 @@
+.player1 {
+    //transform: scale(1.25);
+    //transform:translate(0,100%);
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-130%, -50%);
+    width: 33%;
+}
+
+.player2 {
+    //transform: scale(1.25);
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(30%, -50%);
+    width: 33%;
+}
