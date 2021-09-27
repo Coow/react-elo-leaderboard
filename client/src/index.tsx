@@ -12,6 +12,7 @@ import { applyMiddleware, createStore, compose } from 'redux'
 import { Provider } from 'react-redux'
 
 import allReducers from './Reducers'
+import thunk from 'redux-thunk';
 
 declare global {
 	interface Window {
@@ -26,12 +27,9 @@ const createStoreWithMiddleware
 		save(), // Saving done here,
 	)(createStore)
 
-const store = createStoreWithMiddleware(
-	allReducers,
-	load()
-	//composeEnhancers(),
-	//window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-);
+const store: Store<Player1State, Player1Action> & {
+	dispatch: DispatchType
+} = createStore(allReducers, applyMiddleware(thunk))
 
 ReactDOM.render(
 	<Provider store={store}>
