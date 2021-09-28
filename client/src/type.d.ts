@@ -11,10 +11,16 @@ interface IPlayer {
 }
 
 type Player1State = {
-    player1: IPlayer1
+    player1: IPlayer
 }
 
 type Player2State = {
-    player2: IPlayer1
+    player2: IPlayer
 }
 
+type PlayerAction = {
+    type: string
+    player: IPlayer
+}
+
+type DispatchType = (args: PlayerAction) => PlayerAction

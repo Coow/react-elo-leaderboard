@@ -19,8 +19,6 @@ export const Player = ({ uuid, playerID, className }: PlayerProps) => {
 
     const state = useSelector(state => state)
 
-    const state_player1 = useSelector(state => state.player1)
-
     const handleFormSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
         const target = e.target as typeof e.target & {
