@@ -6,35 +6,8 @@ import reportWebVitals from './reportWebVitals';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import { save, load } from "redux-localstorage-simple"
-
-import { applyMiddleware, createStore, compose } from 'redux'
-import { Provider } from 'react-redux'
-
-import allReducers from './Reducers'
-import thunk from 'redux-thunk';
-
-declare global {
-	interface Window {
-		__REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-	}
-}
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-const createStoreWithMiddleware
-	= applyMiddleware(
-		save(), // Saving done here,
-	)(createStore)
-
-const store: Store<Player1State, Player1Action> & {
-	dispatch: DispatchType
-} = createStore(allReducers, applyMiddleware(thunk))
-
 ReactDOM.render(
-	<Provider store={store}>
-		<App />
-	</Provider>,
+	<App />,
 	document.getElementById('root')
 );
 

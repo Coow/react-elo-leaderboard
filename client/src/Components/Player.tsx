@@ -1,9 +1,6 @@
 import React, { useState } from "react"
 import axios from "axios";
 
-import { useSelector, useDispatch } from 'react-redux';
-import { player1, player2 } from "../Actions";
-
 import { Form, Button, Dropdown } from 'react-bootstrap';
 import { Col, Grid, Row } from 'react-flexbox-grid';
 
@@ -14,12 +11,6 @@ type PlayerProps = {
 }
 
 export const Player = ({ uuid, playerID, className }: PlayerProps) => {
-
-    const dispatch = useDispatch();
-
-    const state = useSelector(state => state)
-
-    const state_player1 = useSelector(state => state.player1)
 
     const handleFormSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
