@@ -1,37 +1,66 @@
-import React, { useState } from "react"
+import React from "react"
 import axios from "axios";
 
 import { Form, Button, Dropdown } from 'react-bootstrap';
 import { Col, Grid, Row } from 'react-flexbox-grid';
+import { AppContext } from "../AppContext";
+import { lang, player1_state } from "../Store";
+import { useState } from "@hookstate/core";
+
+import { Persistence } from '@hookstate/persistence';
+
+import NameBuilder from '../Functions/NameBuilder'
+
 
 type PlayerProps = {
     className?: string
     uuid?: string,
-    playerID: string
+    playerID: string,
+    playerState: any,
+    playerScore?: any
 }
 
-export const Player = ({ uuid, playerID, className }: PlayerProps) => {
+export const Player = ({ uuid, playerID, className, playerState, playerScore }: PlayerProps) => {
+
+    console.log("persisted" + JSON.stringify(playerState.get()))
+
+    const hasInfo = useState(false)
+    //hasInfo.attach(Persistence('plugin-persisted-data-key'))
 
     const handleFormSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
+
         const target = e.target as typeof e.target & {
             localuuid: { value: string }
         }
         const localUUID = target.localuuid.value
-        console.log(target.localuuid.value + playerID)
-        console.log()
+
         axios.post(`http://localhost:3001/users/user`, {
             'localUUID': localUUID
         }).then(response => {
-            console.log(response.data)
+            playerState.set(response.data)
+            hasInfo.set(true)
         }).catch(error => {
             console.log(error)
         })
     }
 
-    const [hasInfo, set_hasInfo] = useState(false)
+    const subtractScore = () => {
+        console.log("subscore")
+        if((playerScore.get() === 0)) {
+            return;
+        } else {
+            playerScore.set((p: number) => p - 1)
+        }
+    }
+
+    const addScore = () => {
+        console.log("addscore")
+        playerScore.set((p: number) => p + 1)
+    }
+
     return <div className={className}>
-        {!hasInfo ?
+        {!hasInfo.get() ?
             <Form className="border-blue-600 border-2 rounded-xl text-center p-8" onSubmit={handleFormSubmit}>
                 <h1>Player {playerID}</h1>
                 <h3>Please enter ID</h3>
@@ -39,8 +68,15 @@ export const Player = ({ uuid, playerID, className }: PlayerProps) => {
                 <Button className="mt-4" variant="primary" type="submit">Submit</Button>
             </Form>
             :
-            <div>
-
-            </div>}
+            <Form className="border-blue-600 border-2 rounded-xl text-center p-8">
+                <h1>
+                    {NameBuilder((playerState.get()).nick, (playerState.get()).firstName, (playerState.get()).lastName)}
+                </h1>
+                <div className="flex borderer">
+                    <Button onClick={subtractScore} className="mx-2">-</Button>
+                    <b className="text-4xl">{playerScore.get()}</b>
+                    <Button onClick={() => playerScore.set((p: number) => p + 1)} className="mx-2">+</Button>
+                </div>
+            </Form>}
     </div>
 }

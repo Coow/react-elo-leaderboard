@@ -1,3 +1,5 @@
+import { useState } from '@hookstate/core'
+import { lang, player1_state } from '../Store'
 import React from 'react'
 import { Nav, Navbar} from 'react-bootstrap'
 

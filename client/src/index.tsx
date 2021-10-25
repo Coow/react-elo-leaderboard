@@ -5,8 +5,10 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '@hookstate/devtools';
 
 ReactDOM.render(
+
 	<App />,
 	document.getElementById('root')
 );

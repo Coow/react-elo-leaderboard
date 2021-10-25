@@ -12,9 +12,10 @@ interface IPlayer {
 
 type Player1State = {
     player1: IPlayer1
+    savePlayer: (player: IPlayer) => void
 }
 
 type Player2State = {
     player2: IPlayer1
+    savePlayer: (player: IPlayer) => void
 }
-

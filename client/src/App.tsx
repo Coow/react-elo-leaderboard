@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "./logo.svg";
+import { createState, useState } from '@hookstate/core';
 
 
 import "./App.css";
@@ -12,15 +12,17 @@ import { Game } from './Pages/Game'
 import { Header } from "./Components/Header";
 
 function App() {
+
   document.body.classList.add('bg-gray-800');
   document.body.classList.add('text-white');
-    return (
+
+  return (
       <BrowserRouter>
-        <Header/>
-        <Route exact path="/" component={Home}/>
-        <Route path="/game" component={Game}/>
+        <Header />
+        <Route exact path="/" component={Home} />
+        <Route path="/game" component={Game} />
       </BrowserRouter>
-    )
+  )
 }
 
 export default App;

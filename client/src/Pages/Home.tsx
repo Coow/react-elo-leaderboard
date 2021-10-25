@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import axios from "axios";
 
 import { Button } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom'
 
 import { Leaderboard } from "../Components/Leaderboard"
 
@@ -66,18 +67,21 @@ export const Home = () => {
 
     useEffect(() => {
         fetch(`http://localhost:3001/users`)
-        .then(result => result.json())
-        .then(response => {
-            console.log(response)
-            set_leaderboardJSON(response)
-        })
-    },[])
+            .then(result => result.json())
+            .then(response => {
+                console.log(response)
+                set_leaderboardJSON(response)
+            })
+    }, [])
 
     return <div className="mt-20 flex flex-col items-center justify-content-center">
 
-        <Button href="game" size="lg" variant="success" className="mb-16 w-1/6">New Game</Button>
+        <NavLink className="text-white no-underline" to="game">
+            <Button size="lg" variant="success" className="mb-16">
+                New Game
+            </Button>
+        </NavLink>
 
-        <Leaderboard columns={columns} rows={leaderboardJSON}
-        />
+        <Leaderboard columns={columns} rows={rows}/>
     </div>
 }
