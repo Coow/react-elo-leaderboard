@@ -82,6 +82,6 @@ export const Home = () => {
             </Button>
         </NavLink>
 
-        <Leaderboard columns={columns} rows={rows}/>
+        <Leaderboard columns={columns} rows={leaderboardJSON}/>
     </div>
 }
