@@ -22,52 +22,148 @@ export class MatchService {
         return await this.matchModel.find().sort({ 'matchEnded': sort })
     }
 
-    async endMatch(player1uuid: string, player1score: number, player2uuid: string, player2score: number) {
-        if(player1uuid == player2uuid) {
+    async endMatch(team1: Array<{ localUUID: string }>, team1score: number, team2: Array<{ localUUID: string }>, team2score: number) {
+        if (team1 == team2) {
             throw new NotAcceptableException()
         }
 
-        const player1 = await this.userModel.findOne({ localUUID: player1uuid })
-        const player2 = await this.userModel.findOne({ localUUID: player2uuid })
+        if (!team1.length || !team2.length) throw new NotFoundException()
 
-        if (!player1 || !player2) throw new NotFoundException()
+        const allPlayers = team1.concat(team2)
 
-        const player1win = player1score > player2score
+        //Validate all of the players in the game
+        for (var i = 0; i < allPlayers.length; i++) {
+            //I have literally no idea why this casting works.. But it does.. So I dont complain
+            const _player = await this.userModel.findOne({ localUUID: allPlayers[i] as unknown as string })
 
-        const matchResult = Elorating.calculate(player1.elo, player2.elo, player1win)
-
-        const NewMatch = new this.matchModel({
-            player1uuid,
-            player2uuid,
-            player1score,
-            player2score,
-            player1win
-        })
-        
-        if(player1win){
-            player1.wins++;
-            player2.losses++;
-        } else {
-            player1.losses++;
-            player2.wins++;
+            if (!_player) {
+                throw new NotAcceptableException();
+            }
         }
 
-        //console.log(matchResult)
-        
-        //Player Rating is player1
-        player1.elo = matchResult.playerRating
+        var team1elo = 0
+        var team2elo = 0
 
-        //Opponent Rating is player2
-        player2.elo = matchResult.opponentRating
+        for (let i = 0; i < team1.length; i++) {
+            var player = await this.userModel.findOne({ localUUID: team1[i] as unknown as string })
+            team1elo += player.elo
+        }
+
+        for (let i = 0; i < team2.length; i++) {
+            var player = await this.userModel.findOne({ localUUID: team2[i] as unknown as string })
+            team2elo += player.elo
+        }
+
+        team1elo = Math.round(team1elo / team1.length)
+        team2elo = Math.round(team2elo / team2.length)
+
+        const team1win = team1score > team2score ? 1 : 0;
+
+        const NewMatch = new this.matchModel({
+            team1,
+            team2,
+            team1score,
+            team2score,
+            team1win
+        })
+
+        if (team1win === 1) {
+            console.log(team1)
+            //Inc wins for team 1
+            for (let i = 0; i < team1.length; i++) {
+                await this.userModel.findOneAndUpdate(
+                    { localUUID: team1[i] as unknown as string },
+                    { $inc: { 'wins': 1 } })
+            }
+
+            //Inc losses for team 2
+            for (let i = 0; i < team2.length; i++) {
+                await this.userModel.findOneAndUpdate(
+                    { localUUID: team2[i] as unknown as string },
+                    { $inc: { 'losses': 1 } })
+            }
+
+            //this.userModel.updateMany(
+            //    { localUUID: {$in: team1} },
+            //    { $inc: { 'wins': 1 } })
+
+        } else {
+            //Inc wins for team 2
+            for (let i = 0; i < team2.length; i++) {
+                await this.userModel.findOneAndUpdate(
+                    { localUUID: team2[i] as unknown as string },
+                    { $inc: { 'wins': 1 } })
+            }
+
+            //Inc losses for team 1
+            for (let i = 0; i < team1.length; i++) {
+                await this.userModel.findOneAndUpdate(
+                    { localUUID: team1[i] as unknown as string },
+                    { $inc: { 'losses': 1 } })
+            }
+        }
+
+        var eloChangeResult = []
+
+        //Calculate elo change for players in team 1
+        for (let i = 0; i < team1.length; i++) {
+            var player = await this.userModel.findOne({ localUUID: team1[i] as unknown as string })
+            var change = await this.CalculateRatingTransfer(player.elo, team2elo, team1win, player.kFactor)
+
+            player.elo += change
+            await player.save()
+
+            eloChangeResult.push({
+                team: "team1",
+                player: team1[i],
+                change
+            })
+        }
+
+        //calculate elo change for players in team 2
+        for (let i = 0; i < team2.length; i++) {
+            var player = await this.userModel.findOne({ localUUID: team2[i] as unknown as string })
+            var change = await this.CalculateRatingTransfer(player.elo, team1elo, !team1win, player.kFactor)
+            
+            player.elo += change
+            await player.save()
+
+            eloChangeResult.push({
+                team: "team2",
+                player: team2[i],
+                change
+            })
+        }
 
 
-        await player1.save()
-        await player2.save()
+        //Team Rating is team1
+        //team1.elo = matchResult.teamRating
+
+        //Opponent Rating is team2
+        //team2.elo = matchResult.opponentRating
 
 
+        //await team1.save()
+        //await team2.save()
         const result = await NewMatch.save();
-        return result.id as string;
+
+        return eloChangeResult;
+
+        //return result.id as string;
     }
 
+    async CalculateRatingTransfer(rating, opponentRating, score, kfactor) {
+        // Transformed ratings:
+        var rPlayer = Math.pow(10, rating / 400);
+        var rOpponent = Math.pow(10, opponentRating / 400);
 
+        // Expected win chance:
+        var ePlayer = rPlayer / (rPlayer + rOpponent);
+
+        // K-factor, measure of impact:
+        var K = kfactor;
+        console.log(Math.round(K * (score - ePlayer)))
+        return Math.round(K * (score - ePlayer));
+        
+    }
 }

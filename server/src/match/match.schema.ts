@@ -6,25 +6,25 @@ export type MatchDocument = Match & Document;
 @Schema()
 export class Match {
     @Prop({required: true})
-    player1uuid: string
+    team1: Array<{localUUID: string}>
 
     @Prop({required: true})
-    player2uuid: string
+    team2: Array<{localUUID: string}>
 
     @Prop({required: true})
-    player1score: number
+    team1score: number
 
     @Prop({required: true})
-    player2score: number
+    team2score: number
 
     @Prop({required: true})
-    player1win: boolean
+    team1win: boolean
 
     @Prop({defaut: false})
-    player1forfeit: boolean
+    team1forfeit: boolean
 
     @Prop({defaut: false})
-    player2forfeit: boolean
+    team2forfeit: boolean
 
     @Prop({default: Date.now})
     matchEnded: Date

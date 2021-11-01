@@ -26,7 +26,6 @@
     "@nestjs/mongoose": "^8.0.1",
     "@nestjs/platform-express": "^8.0.0",
     "@types/bcrypt": "^5.0.0",
-    "@types/mongoose": "^5.11.97",
     "bcrypt": "^5.0.1",
     "elo-rating": "^1.0.1",
     "mongoose": "^5.13.9",

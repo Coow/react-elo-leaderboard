@@ -16,24 +16,24 @@ export class MatchController {
 
     @Post('start')
     async matchStart(
-        @Body('player1uuid') player1uuid: string,
-        @Body('player2uuid') player2uuid: string
+        @Body('team1') team1: Array<{teamuuid}>,
+        @Body('team2') team2: Array<{teamuuid}>
     ) {
 
     }
 
     @Post('end')
     async matchEnd(
-        @Body('player1uuid') player1uuid: string,
-        @Body('player1score') player1score: number,
-        @Body('player2uuid') player2uuid: string,
-        @Body('player2score') player2score: number
+        @Body('team1') team1: Array<{localUUID: string}>,
+        @Body('team1score') team1score: number,
+        @Body('team2') team2: Array<{localUUID: string}>,
+        @Body('team2score') team2score: number
     ) {
         const match = await this.matchService.endMatch(
-            player1uuid,
-            player1score,
-            player2uuid,
-            player2score,
+            team1,
+            team1score,
+            team2,
+            team2score,
         )
 
         return { id: match }
