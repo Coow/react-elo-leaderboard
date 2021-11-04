@@ -8,6 +8,7 @@ import { Route, Router, BrowserRouter } from "react-router-dom";
 
 import { Home } from './Pages/Home'
 import { Game } from './Pages/Game'
+import { MatchHistory } from './Pages/MatchHistory'
 
 import { Header } from "./Components/Header";
 
@@ -21,6 +22,7 @@ function App() {
         <Header />
         <Route exact path="/" component={Home} />
         <Route path="/game" component={Game} />
+        <Route path="/matchHistory" component={MatchHistory} />
       </BrowserRouter>
   )
 }
