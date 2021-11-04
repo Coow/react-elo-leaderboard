@@ -8,10 +8,10 @@ export default function CalculateWinRatio( wins, losses) {
     let winRatio = intWins / totalGames;
 
     let winPercentage = (winRatio * 100);
-    let winPercentageInt = Math.round(winPercentage);
+    let winPercentageInt = Math.round(winPercentage * 10 ) / 10;
 
     if (!winPercentageInt) {
-        return "";
+        return "N/A";
     }
 
     return winPercentageInt + "%";

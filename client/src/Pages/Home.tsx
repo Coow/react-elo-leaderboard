@@ -37,34 +37,6 @@ export const Home = () => {
         }
     ]
 
-    let rows = [
-        {
-            playerName: "Ash",
-            elo: 1000,
-            wins: 2,
-            losses: 3,
-            uuid: "alskjdlakjsdla"
-        },
-        {
-            playerName: "Bob",
-            elo: 1000,
-            wins: 4,
-            losses: 0
-        },
-        {
-            playerName: "Cat",
-            elo: 1000,
-            wins: 2,
-            losses: 3
-        },
-        {
-            playerName: "Dog",
-            elo: 1000,
-            wins: 2,
-            losses: 3
-        },
-    ]
-
     useEffect(() => {
         fetch(`http://localhost:3001/users`)
             .then(result => result.json())
