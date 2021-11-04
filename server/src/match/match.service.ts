@@ -135,16 +135,6 @@ export class MatchService {
             })
         }
 
-
-        //Team Rating is team1
-        //team1.elo = matchResult.teamRating
-
-        //Opponent Rating is team2
-        //team2.elo = matchResult.opponentRating
-
-
-        //await team1.save()
-        //await team2.save()
         const result = await NewMatch.save();
 
         return eloChangeResult;

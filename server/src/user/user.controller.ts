@@ -12,7 +12,6 @@ export class UserController {
   }
   @Post('user')
   async getUser(@Body('localUUID') localUUID: string) {
-    console.log(localUUID)
     return this.userService.getUser(localUUID);
   }
 
