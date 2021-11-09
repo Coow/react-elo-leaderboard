@@ -1,31 +1,66 @@
 #BUILD NESTJS
-FROM node:16 As nest-dev
+FROM node:16-alpine As nest-dev
 
 WORKDIR /usr/src/app
 
 COPY server/package*.json .
 
-RUN npm install --only=development
+RUN npm install
 
-COPY ./server .
+COPY server .
+
+RUN npm run build
+
+
+#BUILD REACT
+FROM node:16-alpine As react
+
+WORKDIR /usr/src/app
+
+COPY client/package*.json .
+
+RUN npm install
+
+COPY client .
 
 RUN npm run build
 
 
 # PROD
-FROM node:16 as production
+FROM node:16-alpine as production
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 
-WORKDIR /usr/src/app
+# COPY SERVER BUILD
+WORKDIR /usr/src/app/server
 
-COPY package*.json ./
+COPY server/package*.json ./
 
 RUN npm install --only=production
 
-COPY . .
-
 COPY --from=nest-dev /usr/src/app/dist ./dist
 
-CMD ["node", "dist/main"]
+# COPY CLIENT BUILD
+WORKDIR /usr/src/app/client
+
+COPY client/package*.json ./
+
+RUN npm install
+
+COPY --from=react /usr/src/app/build ./build
+
+RUN npm install -g serve
+
+## EXPOSE and CMD
+
+WORKDIR /usr/src/app
+
+COPY package.json .
+
+RUN npm install
+
+EXPOSE 3001
+EXPOSE 3000
+
+CMD ["npm", "run", "prod"]
