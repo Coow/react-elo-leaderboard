@@ -26,4 +26,5 @@ type MatchType = {
 	team1score: number;
 	team2score: number;
 	team1win: boolean;
+    matchEnded?: Date;
 };

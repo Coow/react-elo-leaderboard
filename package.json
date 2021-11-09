@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "set BROWSER=none && concurrently \"npm start --prefix ./client/\" \"npm run start:dev --prefix ./server/\""
+    "start": "set BROWSER=none && concurrently \"npm start --prefix ./client/\" \"npm run start:dev --prefix ./server/\"",
+    "prod": "concurrently \"node ./server/dist/main\" "
   },
   "author": "",
   "license": "ISC",

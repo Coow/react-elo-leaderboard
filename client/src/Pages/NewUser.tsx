@@ -21,8 +21,7 @@ export const NewUser = () => {
                 'localUUID': target.localUUID.value,
                 'firstName': target.firstName.value,
                 'lastName': target.lastName.value
-            }
-            ).then(response => {
+            }).then(response => {
                 console.log(response)
             })
             .catch(error => {

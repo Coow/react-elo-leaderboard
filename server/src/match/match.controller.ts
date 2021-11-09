@@ -8,7 +8,7 @@ export class MatchController {
     @Get()
     //Only allows asc and desc
     //Default asc, where oldest is first
-    async getUsers(
+    async getMatches(
         @Query('sort') sort?: string
     ) {
       return this.matchService.getMatches(sort);
