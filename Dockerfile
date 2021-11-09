@@ -1,5 +1,5 @@
 #BUILD NESTJS
-FROM node:16-alpine As nest-dev
+FROM node:16 As nest-dev
 
 WORKDIR /usr/src/app
 
@@ -13,7 +13,7 @@ RUN npm run build
 
 
 #BUILD REACT
-FROM node:16-alpine As react
+FROM node:16 As react
 
 WORKDIR /usr/src/app
 
@@ -27,7 +27,7 @@ RUN npm run build
 
 
 # PROD
-FROM node:16-alpine as production
+FROM node:16 as production
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
