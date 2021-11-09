@@ -2,7 +2,6 @@ import React from "react"
 import axios from "axios";
 
 import { Form, Button, Dropdown } from 'react-bootstrap';
-import { Col, Grid, Row } from 'react-flexbox-grid';
 import { AppContext } from "../AppContext";
 import { lang, player1_state } from "../Store";
 import { useState } from "@hookstate/core";
