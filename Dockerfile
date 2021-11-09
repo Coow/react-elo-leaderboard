@@ -46,7 +46,7 @@ WORKDIR /usr/src/app/client
 
 COPY client/package*.json ./
 
-RUN npm install
+RUN npm install --force
 
 COPY --from=react /usr/src/app/build ./build
 
