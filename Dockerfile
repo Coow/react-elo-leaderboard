@@ -19,7 +19,7 @@ WORKDIR /usr/src/app
 
 COPY client/package*.json .
 
-RUN npm install
+RUN npm install --force
 
 COPY client .
 
