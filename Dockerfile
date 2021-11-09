@@ -5,7 +5,7 @@ WORKDIR /usr/src/app
 
 COPY server/package*.json .
 
-RUN npm install --only=nest-dev
+RUN npm install --only=development
 
 COPY ./server .
 
