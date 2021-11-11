@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -14,8 +15,9 @@ using ELO.Leaderboard.Interfaces.Repositories;
 using ELO.Leaderboard.Interfaces.Services;
 using ELO.Leaderboard.Repositories;
 using ELO.Leaderboard.Services;
+using ELO.Leaderboard.Persistence;
 
-namespace react_elo_leaderboard
+namespace ELO.Leaderboard
 {
     public class Startup
     {
@@ -38,6 +40,19 @@ namespace react_elo_leaderboard
 
             services.AddScoped<IAppRepository, AppRepository>();
             services.AddScoped<IAppService, AppService>();
+
+            services.AddScoped<IPlayerRepository, PlayerRepository>();
+            services.AddScoped<IPlayerService, PlayerService>();
+
+            var conStrBuilder = new Microsoft.Data.SqlClient.SqlConnectionStringBuilder(
+                    Configuration.GetConnectionString("CFDevDb"));
+
+            // username & pass from dotnet user-secrets
+            conStrBuilder.UserID = Configuration["DbUser"];
+            conStrBuilder.Password = Configuration["DbPassword"];
+
+            services.AddDbContext<ELOLeaderboardDbContext>(
+                options => options.UseSqlServer(conStrBuilder.ConnectionString));
 
         }
 

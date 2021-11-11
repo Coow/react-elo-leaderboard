@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace react_elo_leaderboard
+namespace ELO.Leaderboard
 {
     public class Program
     {
