@@ -23,5 +23,21 @@ namespace ELO.Leaderboard.Repositories
 
             return player;
         }
+
+        public Player CreateNewPlayer(string nick, string pin, string firstName, string lastName)
+        {
+            Player player = new Player
+            {
+                Nick = nick,
+                PIN = pin,
+                FirstName = firstName,
+                LastName = lastName
+            };
+
+            var playerEntity = _dbctx.Player.Add(player);
+
+            _dbctx.SaveChanges();
+            return playerEntity.Entity;
+        }
     }
 }

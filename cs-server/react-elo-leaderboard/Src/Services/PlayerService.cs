@@ -22,5 +22,10 @@ namespace ELO.Leaderboard.Services
             Player player = _playerRepo.GetPlayer(nick);
             return player;
         }
+
+        public Player CreateNewPlayer(string nick, string pin, string firstName, string lastName)
+        {
+            return _playerRepo.CreateNewPlayer(nick, pin, firstName, lastName);
+        }
     }
 }

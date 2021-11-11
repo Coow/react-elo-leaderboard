@@ -25,6 +25,7 @@ namespace ELO.Leaderboard.Persistence
             // Player
             builder.Entity<Player>().ToTable("Player");
             builder.Entity<Player>().HasKey(p => p.PlayerId);
+            builder.Entity<Player>().HasIndex(p => p.Nick).IsUnique();
             builder.Entity<Player>().Property(p => p.PlayerId).IsRequired().ValueGeneratedOnAdd();
             builder.Entity<Player>().Property(p => p.Nick).IsRequired();
             builder.Entity<Player>().Property(p => p.ELO).IsRequired().ValueGeneratedOnAdd().HasDefaultValue(1000);

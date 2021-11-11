@@ -4,14 +4,16 @@ using ELO.Leaderboard.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace react_elo_leaderboard.Migrations
 {
     [DbContext(typeof(ELOLeaderboardDbContext))]
-    partial class ELOLeaderboardDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211111212010_Mig2-UniqueNick")]
+    partial class Mig2UniqueNick
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

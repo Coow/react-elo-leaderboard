@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Text.Json.Serialization;
+using System.ComponentModel.DataAnnotations;
 
 namespace ELO.Leaderboard.Models
 {
@@ -24,12 +25,22 @@ namespace ELO.Leaderboard.Models
         public int Losses { get; set; }
         [JsonIgnore]
         public int KFactor { get; set; }
-        public bool Enabled { get; set; }
+        public bool? Enabled { get; set; }
         [JsonIgnore]
         public string PIN { get; set; }
 
         // Foreign Key for Team
         public virtual ICollection<Match> Matches { get; set; }
         public virtual ICollection<Team> Teams { get; set; }
+    }
+
+    public class NewPlayerSchema
+    {
+        [Required]
+        public string Nick { get; set; }
+        [Required]
+        public string PIN { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

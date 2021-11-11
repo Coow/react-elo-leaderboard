@@ -9,5 +9,7 @@ namespace ELO.Leaderboard.Interfaces.Repositories
     public interface IPlayerRepository
     {
         public Player GetPlayer(string nick);
+
+        public Player CreateNewPlayer(string nick, string pin, string firstName, string lastName);
     }
 }
