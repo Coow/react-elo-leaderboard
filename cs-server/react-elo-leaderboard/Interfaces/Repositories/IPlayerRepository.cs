@@ -10,6 +10,6 @@ namespace ELO.Leaderboard.Interfaces.Repositories
     {
         public Player GetPlayer(string nick);
 
-        public Player CreateNewPlayer(string nick, string pin, string firstName, string lastName);
+        public Task<Player> CreateNewPlayer(string nick, string pin, string firstName, string lastName);
     }
 }

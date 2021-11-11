@@ -8,8 +8,8 @@ namespace ELO.Leaderboard.Interfaces.Services
 {
     public interface IPlayerService
     {
-        public object GetPlayer(string nick);
+        public bool GetPlayer(string nick, out Player player);
 
-        public Player CreateNewPlayer(string nick, string pin, string firstName, string lastName);
+        public Task<Player> CreateNewPlayer(string nick, string pin, string firstName, string lastName);
     }
 }

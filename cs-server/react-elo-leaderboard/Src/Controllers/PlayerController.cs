@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using ELO.Leaderboard.Interfaces.Services;
 using ELO.Leaderboard.Models;
@@ -37,9 +38,14 @@ namespace ELO.Leaderboard.Controllers
          * Returns Player with nickname 'nick'
          */
         [HttpGet("{nick}")]
-        public object GetUser(string nick)
+        public ActionResult GetUser(string nick)
         {
-            return _playerService.GetPlayer(nick);
+            if (!_playerService.GetPlayer(nick, out var player))
+            {
+                return NotFound();
+            }
+
+            return Ok(player);
         }
 
         /*
@@ -48,9 +54,17 @@ namespace ELO.Leaderboard.Controllers
          * Create a new player with parameters in request body
          */
         [HttpPost]
-        public void Post([FromBody] NewPlayerSchema body)
+        public async Task<ActionResult> Post([FromBody] NewPlayerSchema body)
         {
-            _playerService.CreateNewPlayer(body.Nick, body.PIN, body.FirstName, body.LastName);
+            var player = await _playerService.CreateNewPlayer(body.Nick, body.PIN, body.FirstName, body.LastName);
+            if (player == null)
+            {
+                // TODO: Standard Error Schema class
+                return BadRequest(new { error = $"Nickname {body.Nick} is already taken!", ResponseCode = HttpStatusCode.BadRequest });
+            }
+
+            string uri = $"http://localhost:14132/api/Player/{player.Nick}";
+            return Created(uri, player);
         }
 
         // PUT api/<ValuesController>/5

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ELO.Leaderboard.Models;
 using ELO.Leaderboard.Interfaces.Repositories;
 using ELO.Leaderboard.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace ELO.Leaderboard.Repositories
 {
@@ -20,11 +21,11 @@ namespace ELO.Leaderboard.Repositories
         public Player GetPlayer(string nick)
         {
             var player = _dbctx.Player.Where(p => p.Nick == nick).FirstOrDefault();
-
+            
             return player;
         }
 
-        public Player CreateNewPlayer(string nick, string pin, string firstName, string lastName)
+        public async Task<Player> CreateNewPlayer(string nick, string pin, string firstName, string lastName)
         {
             Player player = new Player
             {
@@ -34,9 +35,9 @@ namespace ELO.Leaderboard.Repositories
                 LastName = lastName
             };
 
-            var playerEntity = _dbctx.Player.Add(player);
+            var playerEntity = await _dbctx.Player.AddAsync(player);
 
-            _dbctx.SaveChanges();
+            await _dbctx.SaveChangesAsync();
             return playerEntity.Entity;
         }
     }

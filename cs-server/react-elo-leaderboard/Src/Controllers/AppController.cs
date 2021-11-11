@@ -19,7 +19,7 @@ namespace ELO.Leaderboard.Controllers
         }
 
         [HttpGet()]
-        public IActionResult GetHello()
+        public ActionResult GetHello()
         {
             return Ok(_appService.GetHello());
         }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ELO.Leaderboard.Models;
 using ELO.Leaderboard.Interfaces.Repositories;
 using ELO.Leaderboard.Interfaces.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace ELO.Leaderboard.Services
 {
@@ -17,15 +18,26 @@ namespace ELO.Leaderboard.Services
             _playerRepo = playerRepo;
         }
 
-        public object GetPlayer(string nick)
+        public bool GetPlayer(string nick, out Player player)
         {
-            Player player = _playerRepo.GetPlayer(nick);
-            return player;
+                        
+            player = _playerRepo.GetPlayer(nick);
+            
+            return player != null;
         }
 
-        public Player CreateNewPlayer(string nick, string pin, string firstName, string lastName)
+        public async Task<Player> CreateNewPlayer(string nick, string pin, string firstName, string lastName)
         {
-            return _playerRepo.CreateNewPlayer(nick, pin, firstName, lastName);
+            Player player;
+            try
+            {
+                player = await _playerRepo.CreateNewPlayer(nick, pin, firstName, lastName);
+            }
+            catch (DbUpdateException)
+            {
+                return null;
+            }
+            return player;
         }
     }
 }
