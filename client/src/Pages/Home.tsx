@@ -16,6 +16,10 @@ export const Home = () => {
             field: "placement"
         },
         {
+            label: "",
+            field: "medal"
+        },
+        {
             label: "Name",
             field: "playerName"
         },

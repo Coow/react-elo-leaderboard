@@ -91,7 +91,7 @@ export const Match = ({
 	return (
 		<div className='mt-10 flex flex-col items-center justify-content-center'>
 			<div className="bg-gray-500">{date} </div>
-			<div className='w-64 flex flex-row items-center justify-content-center'>
+			<div className='flex flex-row items-center justify-content-center'>
 				<div
 					className={`w-64 text-center flex flex-row items-center justify-content-center ${MatchBackgroundColor(
 						team1win
